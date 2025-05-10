@@ -34,5 +34,7 @@ if __name__ == '__main__':
     targets = rng.sample(range(1, 1_000), 25)
     seqset = set(sequence)  # Validation
     for target in targets:
-        print(f'Searching for {target:3} in {seqlen} item sequence => {seqsearch(sequence, target):3} '
-              f'(Present={target in seqset})')
+        print(
+            f'Searching for {target:3} in {seqlen} item sequence => '
+            f'{seqsearch(sequence, target):3} (Present={target in seqset})'
+        )
