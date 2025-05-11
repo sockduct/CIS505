@@ -2,7 +2,11 @@
 '''
 Foundations of Algorithms
 Chapter 1 - Algorithms - Efficiency, Analysis, and Order
-* Sequential Search
+
+Sequential Search
+* Problem:  Is target in sequence?
+* Inputs:  sequence, target item
+* Outputs:  Index of target within sequence or -1 if not present
 '''
 
 
