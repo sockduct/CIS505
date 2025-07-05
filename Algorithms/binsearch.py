@@ -59,8 +59,7 @@ if __name__ == '__main__':
     numseq.sort()
 
     seqset = set(numseq)  # Validation
-    targets = rng.sample(range(1, 2_000_000), 100)
-    end1 = time.perf_counter()
+    targets = rng.sample(range(1, 2_000_000), 20)
 
     start2 = time.perf_counter()
     for target in targets:
@@ -68,7 +67,8 @@ if __name__ == '__main__':
             f'Searching for {target:9,} in {seqlen:,} item sequence => '
             f'{binsearch(numseq, target, verbose=False):9,} (Present={target in numseq})'
         )
-    end2 = time.perf_counter()
+    end = time.perf_counter()
 
-    print(f'\nBinary search setup time: {(end1 - start1):.6f}')
-    print(f'Average time/function invocation: {(end2 - start2)/len(targets):.6f}\n')
+    print(f'\n        Binary search setup time: {(start2 - start1):.6f}')
+    print(f'Average time/function invocation: {(end - start2)/len(targets):.6f}')
+    print(f'                   Total runtime: {(end - start1):.6f}\n')

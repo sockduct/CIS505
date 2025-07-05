@@ -88,10 +88,16 @@ def matmul(a: Matrix, b: Matrix) -> Matrix:
     n = len(a)
     c = Matrix(n=n)
     # Note:  See use of itertools.product in Matrix.__mul__
+    '''
+    Refactor this to below:
     for row_index in range(len(a)):
         for col_index in range(len(b)):
             for inner_index in range(len(c)):
                 c[row_index][col_index] += a[row_index][inner_index] * b[inner_index][col_index]
+    '''
+    for row_index, col_index in product(range(len(a)), range(len(b))):
+        for inner_index in range(len(c)):
+            c[row_index][col_index] += a[row_index][inner_index] * b[inner_index][col_index]
 
     return c
 

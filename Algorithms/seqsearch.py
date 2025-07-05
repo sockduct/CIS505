@@ -27,6 +27,8 @@ def seqsearch(sequence: Sequence[Any], target: Any) -> int:
     return -1
     '''
     # Optimized - return index if found else -1:
+    # next returns first matching item from generator expression - if no matches
+    # then returns -1
     return next(
         (index for index, item in enumerate(sequence) if item == target), -1
     )
@@ -37,9 +39,8 @@ if __name__ == '__main__':
     rng = random.SystemRandom()
     seqlen = 1_000_000
     sequence = rng.sample(range(1, 2_000_000), seqlen)
-    targets = rng.sample(range(1, 2_000_000), 100)
+    targets = rng.sample(range(1, 2_000_000), 20)
     seqset = set(sequence)  # Validation
-    end1 = time.perf_counter()
 
     start2 = time.perf_counter()
     for target in targets:
@@ -47,7 +48,8 @@ if __name__ == '__main__':
             f'Searching for {target:9,} in {seqlen:,} item sequence => '
             f'{seqsearch(sequence, target):9,} (Present={target in seqset})'
         )
-    end2 = time.perf_counter()
+    end = time.perf_counter()
 
-    print(f'\nSequence search setup time: {(end1 - start1):.6f}')
-    print(f'Average time/function invocation: {(end2 - start2)/len(targets):.6f}\n')
+    print(f'\n      Sequence search setup time: {(start2 - start1):.6f}')
+    print(f'Average time/function invocation: {(end - start2)/len(targets):.6f}')
+    print(f'                   Total runtime: {(end - start1):.6f}\n')

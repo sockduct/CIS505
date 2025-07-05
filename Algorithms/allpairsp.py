@@ -29,7 +29,7 @@ from math import inf
 INF = '\u221e'  # Infinity symbol
 
 
-type Number = int | float
+type Number = int | float  # Can't constraint to just int and inf, next best
 
 
 def allpairsp(W: list[list[Number]], n: int=0) -> tuple[list[list[Number]], list[list[Number]]]:
@@ -85,19 +85,12 @@ def print_weighted_graph(W: list[list[Number]], *, as_vertex: bool=False) -> Non
     # '...'
     print('v ' + ''.join(f'{v:_>3}' for v in range(1, n + 1)))
     for v, row in enumerate(W):
-        print(f'{v + 1}|' + ''.join(f'{w + offset: >3}' if w != inf else f'{INF: >3}' for w in row))
+        print(f'{v + 1}|' + ''.join(f'{w + offset: >3}' if w != inf else f'{0: >3}' for w in row))
 
 
-if __name__ == '__main__':
-    # Weighted Graph as adjacency matrix:
-    W = [
-        [0,     1, inf,   1,   5],
-        [9,     0,   3,   2, inf],
-        [inf, inf,   0,   4, inf],
-        [inf, inf,   2,   0,   3],
-        [3,   inf, inf, inf,   0],
-    ]
-
+def print_results(W: list[list[Number]], n: int=0) -> None:
+    if not n:
+        n = len(W)
     D, P = allpairsp(W)
     print('Weighted Graph as adjacency matrix:')
     print_weighted_graph(W)
@@ -107,8 +100,54 @@ if __name__ == '__main__':
     print_weighted_graph(P, as_vertex=True)
 
     print('\nShortest Paths between vertices:')
-    for i, j in itertools.product(range(5), range(5)):
+    for i, j in itertools.product(range(n), range(n)):
         if i == j:
             continue
         print(f'From v{i + 1} to v{j + 1} (Weight: {D[i][j]: >2}):  ', end='')
         print_path(P, i, j)
+
+
+if __name__ == '__main__':
+    # Weighted Graph as adjacency matrix:
+    W = [#v1:  v2:  v3:  v4:  v5:
+        [  0,   1, inf,   1,   5],  # v1
+        [  9,   0,   3,   2, inf],  # v2
+        [inf, inf,   0,   4, inf],  # v3
+        [inf, inf,   2,   0,   3],  # v4
+        [  3, inf, inf, inf,   0],  # v5
+    ]
+
+    W1 = [#v1: v2:  v3:  v4:  v5:  v6:  v7:
+        [  0,   4, inf, inf, inf,  10, inf],  # v1
+        [  3,   0, inf,  18, inf, inf, inf],  # v2
+        [inf,   6,   0, inf, inf, inf, inf],  # v3
+        [inf,   5,  15,   0,   2,  19,   5],  # v4
+        [inf, inf,  12,   1,   0, inf, inf],  # v5
+        [inf, inf, inf, inf, inf,   0,  10],  # v6
+        [inf, inf, inf,   8, inf, inf,   0],  # v7
+    ]
+
+    W2 = [
+        [  0,   1, inf,   1,   5],
+        [  9,   0,   3,   2, inf],
+        [inf, inf,   0,   4, inf],
+        [inf, inf,   2,   0,   3],
+        [  3, inf, inf, inf,   0],
+    ]
+
+    W3 = [#v1: v2:  v3:  v4:  v5:  v6:  v7:  v8:  v9: v10: v11: v12:
+        [  0, inf, inf,   1, inf, inf, inf, inf, inf, inf, inf, inf],  # v1
+        [inf,   0, inf, inf,   1, inf, inf, inf, inf, inf, inf, inf],  # v2
+        [inf, inf,   0,   1, inf, inf, inf, inf, inf, inf, inf, inf],  # v3
+        [  1, inf,   1,   0,   1, inf, inf,   1, inf, inf, inf, inf],  # v4
+        [inf,   1, inf,   1,   0,   1, inf, inf,   1, inf, inf, inf],  # v5
+        [inf, inf, inf, inf,   1,   0, inf, inf, inf, inf, inf, inf],  # v6
+        [inf, inf, inf, inf, inf, inf,   0,   1, inf, inf, inf, inf],  # v7
+        [inf, inf, inf,   1, inf, inf,   1,   0,   1, inf,   1, inf],  # v8
+        [inf, inf, inf, inf,   1, inf, inf,   1,   0,   1, inf,   1],  # v9
+        [inf, inf, inf, inf, inf, inf, inf, inf,   1,   0, inf, inf],  # v10
+        [inf, inf, inf, inf, inf, inf, inf,   1, inf, inf,   0, inf],  # v11
+        [inf, inf, inf, inf, inf, inf, inf, inf,   1, inf, inf,   0],  # v12
+    ]
+
+    print_results(W3)
